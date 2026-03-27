@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tap+ | Hospitality Review Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0a08;
+  --cream:#f5f1eb;
+  --warm-white:#faf8f4;
+  --emerald:#0d9e6e;
+  --emerald-dim:rgba(13,158,110,.08);
+  --emerald-glow:rgba(13,158,110,.18);
+  --gold:#b8956a;
+  --stone:#8a8880;
+  --mist:#e8e4de;
+  --charcoal:#1c1c1a;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--cream);
+  font-family:'DM Sans',sans-serif;font-size:16px;
+  line-height:1.7;overflow-x:hidden;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 56px;
+  background:rgba(10,10,8,.92);backdrop-filter:blur(28px);
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.nav-logo{
+  font-family:'DM Sans',sans-serif;
+  font-size:22px;font-weight:500;letter-spacing:.04em;
+  color:var(--cream);
+}
+.nav-logo sup{
+  font-size:13px;color:var(--emerald);
+  vertical-align:super;margin-left:1px;font-weight:600;
+}
+.nav-links{display:flex;align-items:center;gap:40px}
+.nav-links a{
+  color:var(--stone);font-size:13px;font-weight:400;
+  text-decoration:none;letter-spacing:.04em;transition:color .25s;
+}
+.nav-links a:hover{color:var(--cream)}
+.nav-cta{
+  font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--emerald);text-decoration:none;
+  border-bottom:1px solid var(--emerald);padding-bottom:2px;
+  transition:all .25s;
+}
+.nav-cta:hover{color:var(--cream);border-color:var(--cream)}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:120px 56px 80px;
+  position:relative;overflow:hidden;
+  gap:60px;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 50% 70% at 70% 50%, rgba(13,158,110,.04) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 40% at 10% 90%, rgba(184,149,106,.03) 0%, transparent 60%);
+  pointer-events:none;
+}
+/* Subtle grain */
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  opacity:.6;pointer-events:none;
+}
+.hero-left{position:relative;z-index:1}
+.hero-kicker{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.22em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:28px;
+  display:flex;align-items:center;gap:12px;
+  opacity:0;animation:fadeIn .8s .1s ease forwards;
+}
+.hero-kicker::before{
+  content:'';width:28px;height:1px;background:var(--gold);flex-shrink:0;
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(52px,5.5vw,84px);
+  font-weight:300;line-height:1.05;
+  letter-spacing:-.01em;margin-bottom:28px;
+  color:var(--cream);
+  opacity:0;animation:fadeIn .8s .2s ease forwards;
+}
+.hero h1 em{
+  font-style:italic;color:var(--emerald);
+  font-weight:300;
+}
+.hero-body{
+  font-size:16px;color:var(--stone);font-weight:400;
+  line-height:1.8;max-width:420px;margin-bottom:44px;
+  opacity:0;animation:fadeIn .8s .35s ease forwards;
+}
+.hero-actions{
+  display:flex;align-items:center;gap:32px;
+  opacity:0;animation:fadeIn .8s .45s ease forwards;
+}
+.btn-ink{
+  background:var(--cream);color:var(--ink);
+  padding:14px 36px;font-size:13px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;
+  border:none;cursor:pointer;font-family:'DM Sans',sans-serif;
+  text-decoration:none;transition:all .25s;display:inline-block;
+}
+.btn-ink:hover{background:var(--warm-white);transform:translateY(-1px)}
+.btn-text{
+  font-size:13px;color:var(--stone);font-weight:400;
+  text-decoration:none;letter-spacing:.04em;
+  transition:color .25s;border-bottom:1px solid transparent;
+  padding-bottom:1px;
+}
+.btn-text:hover{color:var(--cream);border-color:rgba(255,255,255,.3)}
+
+/* Hero right — card */
+.hero-right{
+  position:relative;z-index:1;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;animation:fadeIn .9s .3s ease forwards;
+}
+.card-scene{
+  width:320px;height:200px;perspective:1000px;
+  cursor:grab;user-select:none;
+}
+.card-scene:active{cursor:grabbing}
+.card-3d{
+  width:100%;height:100%;position:relative;
+  transform-style:preserve-3d;
+  transform:rotateY(-18deg) rotateX(8deg);
+  animation:elegantFloat 8s ease-in-out infinite;
+}
+@keyframes elegantFloat{
+  0%,100%{transform:rotateY(-18deg) rotateX(8deg) translateY(0)}
+  50%{transform:rotateY(-15deg) rotateX(5deg) translateY(-10px)}
+}
+.card-face,.card-back{
+  position:absolute;inset:0;border-radius:12px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+}
+.card-face{
+  background:linear-gradient(140deg,#111209 0%,#0c0f08 60%,#080b05 100%);
+  border:1px solid rgba(184,149,106,.22);
+  box-shadow:
+    0 0 0 1px rgba(184,149,106,.06),
+    0 30px 80px rgba(0,0,0,.9),
+    0 0 60px rgba(13,158,110,.04),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  padding:24px 28px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  overflow:hidden;
+}
+.card-face::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(184,149,106,.04) 0%,transparent 50%);
+  pointer-events:none;
+}
+.cf-logo{
+  font-family:'DM Sans',sans-serif;font-size:17px;
+  font-weight:500;letter-spacing:.04em;color:var(--cream);
+  position:relative;z-index:1;
+}
+.cf-logo sup{font-size:10px;color:var(--emerald);vertical-align:super}
+.cf-info{position:relative;z-index:1}
+.cf-name{font-size:14px;font-weight:500;color:var(--cream);margin-bottom:3px}
+.cf-role{
+  font-size:9px;color:var(--gold);
+  font-family:'DM Mono',monospace;letter-spacing:.12em;text-transform:uppercase;
+}
+.cf-nfc{
+  position:absolute;bottom:22px;right:26px;z-index:1;opacity:.35;
+}
+.card-shine{
+  position:absolute;inset:0;border-radius:12px;
+  background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.04) 50%,transparent 62%);
+  pointer-events:none;z-index:3;
+}
+.card-back{
+  transform:rotateY(180deg);
+  background:linear-gradient(140deg,#0a0c07,#070905);
+  border:1px solid rgba(184,149,106,.12);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+}
+.back-label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.18em;color:var(--gold);text-transform:uppercase;
+}
+.qr{
+  width:72px;height:72px;background:var(--cream);
+  border-radius:6px;padding:7px;
+  display:grid;grid-template-columns:repeat(5,1fr);
+  grid-template-rows:repeat(5,1fr);gap:2px;
+}
+.qb{background:var(--ink);border-radius:1px}
+.qe{background:transparent}
+.back-url{font-size:9px;color:rgba(138,136,128,.6);font-family:'DM Mono',monospace;letter-spacing:.1em}
+
+.card-hint{
+  font-size:10px;color:rgba(138,136,128,.4);
+  font-family:'DM Mono',monospace;letter-spacing:.08em;
+  margin-top:14px;text-align:center;
+}
+
+/* Decorative line */
+.hero-rule{
+  width:1px;height:120px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);
+  margin:0 auto 16px;opacity:.3;
+}
+
+/* ── DIVIDER ── */
+.divider{
+  height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
+  margin:0 56px;
+}
+
+/* ── SECTION BASE ── */
+.sec{padding:100px 56px}
+.container{max-width:1100px;margin:0 auto}
+.sec-kicker{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:.22em;color:var(--gold);text-transform:uppercase;
+  display:flex;align-items:center;gap:12px;margin-bottom:20px;
+}
+.sec-kicker::before{content:'';width:20px;height:1px;background:var(--gold);flex-shrink:0}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(40px,5vw,68px);font-weight:300;
+  line-height:1.05;letter-spacing:-.01em;margin-bottom:20px;
+}
+.sec-title em{font-style:italic;color:var(--emerald)}
+.sec-body{font-size:16px;color:var(--stone);line-height:1.8;max-width:480px}
+
+/* ── HOW ── */
+.how-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,.04);
+  margin-top:60px;border:1px solid rgba(255,255,255,.04);
+}
+.how-step{
+  background:var(--ink);padding:44px 36px;position:relative;
+  overflow:hidden;transition:background .3s;
+}
+.how-step:hover{background:#0e0e0c}
+.step-accent{
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--emerald),transparent);
+  opacity:0;transition:opacity .4s;
+}
+.how-step:hover .step-accent{opacity:.6}
+.step-number{
+  font-family:'Cormorant Garamond',serif;
+  font-size:64px;font-weight:300;
+  color:rgba(184,149,106,.1);line-height:1;margin-bottom:20px;
+  font-style:italic;
+}
+.step-ico{font-size:28px;margin-bottom:18px}
+.how-step h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:400;margin-bottom:12px;color:var(--cream);
+}
+.how-step p{font-size:14px;color:var(--stone);line-height:1.75}
+
+/* ── LIGHT SECTION ── */
+.light-sec{
+  background:var(--warm-white);color:var(--ink);
+  padding:100px 56px;
+}
+.light-sec .sec-kicker{color:var(--emerald)}
+.light-sec .sec-kicker::before{background:var(--emerald)}
+.light-sec .sec-body{color:#5a5a56}
+
+/* ── FEATURES ── */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--mist);margin-top:56px;border:1px solid var(--mist)}
+.feat{
+  background:var(--warm-white);padding:36px 32px;
+  transition:background .25s;position:relative;
+}
+.feat:hover{background:white}
+.feat-num{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:11px;color:var(--emerald);letter-spacing:.12em;
+  margin-bottom:16px;font-weight:400;
+}
+.feat h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:400;color:var(--ink);margin-bottom:10px;
+}
+.feat p{font-size:13px;color:#6a6a66;line-height:1.75}
+
+/* VERTICALS */
+.vert-grid{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:40px;
+}
+.vert{
+  font-size:13px;font-weight:400;color:#4a4a46;
+  border:1px solid var(--mist);
+  padding:8px 18px;letter-spacing:.04em;
+  transition:all .2s;background:white;
+}
+.vert:hover{border-color:var(--emerald);color:var(--emerald)}
+
+/* ── PRICING ── */
+.price-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:rgba(255,255,255,.05);max-width:900px;
+  margin:60px auto 0;border:1px solid rgba(255,255,255,.05);
+}
+.pcard{padding:48px 44px;background:var(--ink);position:relative;overflow:hidden}
+.pcard.featured{background:#0c0f0a}
+.pcard-accent{
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--emerald),transparent);
+  opacity:.4;
+}
+.pcard.featured .pcard-accent{opacity:.8}
+.ptag{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.18em;color:var(--gold);text-transform:uppercase;
+  margin-bottom:24px;display:block;
+}
+.pname{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;color:var(--cream);margin-bottom:8px;
+}
+.pamount{
+  font-family:'Cormorant Garamond',serif;
+  font-size:72px;font-weight:300;color:var(--cream);
+  line-height:1;margin-bottom:6px;
+}
+.pamount sup{font-size:28px;color:var(--stone);vertical-align:super}
+.pper{font-size:12px;color:var(--stone);margin-bottom:32px;letter-spacing:.04em}
+.pdiv{height:1px;background:rgba(255,255,255,.06);margin-bottom:28px}
+.plist{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
+.plist li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:13px;color:rgba(245,241,235,.6);line-height:1.5;
+}
+.plist li::before{
+  content:'—';color:var(--emerald);flex-shrink:0;
+  font-size:12px;margin-top:2px;
+}
+.pbtn{
+  display:block;text-align:center;text-decoration:none;
+  font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  padding:14px 28px;transition:all .25s;font-family:'DM Sans',sans-serif;
+}
+.pbtn.outline{
+  border:1px solid rgba(255,255,255,.15);color:var(--cream);
+}
+.pbtn.outline:hover{border-color:var(--cream)}
+.pbtn.solid{
+  background:var(--emerald);color:var(--ink);border:none;cursor:pointer;
+}
+.pbtn.solid:hover{background:#0bb87e}
+
+/* CARD PRICING */
+.cpgrid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:rgba(255,255,255,.05);max-width:580px;
+  margin:56px auto 0;border:1px solid rgba(255,255,255,.05);
+}
+.cpcard{
+  background:var(--ink);padding:36px 32px;text-align:center;
+  transition:background .25s;
+}
+.cpcard:hover{background:#0e0e0c}
+.cpcard h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:300;color:var(--cream);margin-bottom:10px;
+}
+.cp{
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;font-weight:300;color:var(--emerald);line-height:1;
+}
+.cp sup{font-size:22px;color:var(--stone);vertical-align:super}
+.cpcard p{font-size:12px;color:var(--stone);margin-top:10px;line-height:1.6;letter-spacing:.02em}
+
+/* ── CONTACT ── */
+.contact-sec{padding:100px 56px;background:#0c0c0a;border-top:1px solid rgba(255,255,255,.04)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start}
+.contact-info{margin-top:40px;display:flex;flex-direction:column;gap:24px}
+.ci{display:flex;align-items:flex-start;gap:16px}
+.ci-line{
+  width:1px;height:40px;background:linear-gradient(to bottom,var(--emerald),transparent);
+  flex-shrink:0;margin-top:4px;
+}
+.ci-title{font-size:14px;font-weight:500;color:var(--cream);margin-bottom:3px}
+.ci-sub{font-size:13px;color:var(--stone);line-height:1.6}
+
+/* Form */
+.form{display:flex;flex-direction:column;gap:16px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ff{display:flex;flex-direction:column;gap:6px}
+.ff label{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.16em;color:var(--stone);text-transform:uppercase;
+}
+.ff input,.ff select,.ff textarea{
+  background:rgba(255,255,255,.03);
+  border:none;border-bottom:1px solid rgba(255,255,255,.1);
+  padding:12px 0;color:var(--cream);
+  font-size:14px;font-family:'DM Sans',sans-serif;
+  outline:none;transition:border-color .25s;
+  border-radius:0;
+}
+.ff input:focus,.ff select:focus,.ff textarea:focus{
+  border-bottom-color:var(--emerald);
+}
+.ff select{cursor:pointer}
+.ff select option{background:#0c0c0a}
+.ff textarea{resize:vertical;min-height:80px}
+.fsub{
+  background:transparent;color:var(--cream);
+  padding:14px 0;font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  border:none;border-bottom:1px solid var(--emerald);
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all .25s;text-align:left;margin-top:8px;
+  width:auto;display:inline-block;
+}
+.fsub:hover{color:var(--emerald)}
+.fsuccess{
+  display:none;padding:24px 0;
+  color:var(--emerald);font-size:14px;font-weight:400;
+  border-top:1px solid rgba(13,158,110,.2);
+}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--ink);
+  border-top:1px solid rgba(255,255,255,.04);
+  padding:32px 56px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.f-logo{
+  font-family:'DM Sans',sans-serif;font-size:18px;
+  font-weight:500;letter-spacing:.04em;color:var(--cream);
+}
+.f-logo sup{font-size:11px;color:var(--emerald);vertical-align:super}
+.f-copy{font-size:12px;color:var(--stone);letter-spacing:.02em}
+.f-links{display:flex;gap:28px}
+.f-links a{font-size:12px;color:var(--stone);text-decoration:none;letter-spacing:.04em;transition:color .2s}
+.f-links a:hover{color:var(--cream)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:18px 24px}
+  .nav-links{display:none}
+  .hero{grid-template-columns:1fr;padding:100px 24px 60px;text-align:center}
+  .hero-kicker{justify-content:center}
+  .hero-body{margin:0 auto 40px}
+  .hero-actions{justify-content:center}
+  .hero-right{display:none}
+  .sec,.light-sec,.contact-sec{padding:72px 24px}
+  .divider{margin:0 24px}
+  .how-grid,.feat-grid{grid-template-columns:1fr}
+  .price-grid,.cpgrid,.contact-grid{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  footer{padding:28px 24px;flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Tap<sup>+</sup></div>
+  <div class="nav-links">
+    <a href="#how">How It Works</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Request a Demo</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-left">
+    <div class="hero-kicker">Hospitality Review Intelligence</div>
+    <h1>
+      Every tap.<br/>
+      Every review.<br/>
+      <em>Effortlessly.</em>
+    </h1>
+    <p class="hero-body">
+      Staff carry a card. Customers tap it. Five-star experiences flow directly to Google.
+      Your team receives AI coaching, real-time leaderboards, and the analytics to improve every shift.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-ink">Request a Demo</a>
+      <a href="#how" class="btn-text">See how it works →</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="card-scene" id="cardScene">
+      <div class="card-3d" id="card3d">
+        <div class="card-face">
+          <div class="cf-logo">Tap<sup>+</sup></div>
+          <div class="cf-info">
+            <div class="cf-name">Your Name</div>
+            <div class="cf-role">Your Title · Your Business</div>
+          </div>
+          <div class="cf-nfc">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path d="M20 12a8 8 0 11-16 0 8 8 0 0116 0z" stroke="#0d9e6e" stroke-width="1.2" opacity=".4"/>
+              <path d="M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke="#0d9e6e" stroke-width="1.2" opacity=".65"/>
+              <circle cx="12" cy="12" r="1.5" fill="#0d9e6e"/>
+            </svg>
+          </div>
+          <div class="card-shine"></div>
+        </div>
+        <div class="card-back">
+          <div class="back-label">Tap to Rate</div>
+          <div class="qr">
+            <div class="qb"></div><div class="qb"></div><div class="qe"></div><div class="qb"></div><div class="qb"></div>
+            <div class="qb"></div><div class="qe"></div><div class="qb"></div><div class="qe"></div><div class="qb"></div>
+            <div class="qe"></div><div class="qb"></div><div class="qb"></div><div class="qb"></div><div class="qe"></div>
+            <div class="qb"></div><div class="qe"></div><div class="qb"></div><div class="qe"></div><div class="qb"></div>
+            <div class="qb"></div><div class="qb"></div><div class="qe"></div><div class="qb"></div><div class="qb"></div>
+          </div>
+          <div class="back-url">tapplus.top</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-hint">drag to rotate · tap to flip</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="sec" id="how">
+  <div class="container">
+    <div class="sec-kicker">How It Works</div>
+    <h2 class="sec-title">Three steps.<br/><em>Seamlessly.</em></h2>
+    <p class="sec-body">No app download. No friction for your customer. No training required for your staff.</p>
+
+    <div class="how-grid">
+      <div class="how-step reveal">
+        <div class="step-accent"></div>
+        <div class="step-number">I</div>
+        <div class="step-ico">📲</div>
+        <h3>The Tap</h3>
+        <p>Your staff carry an NFC card. A customer holds their phone near it. Their browser opens in an instant — no app, no login, no friction whatsoever.</p>
+      </div>
+      <div class="how-step reveal">
+        <div class="step-accent"></div>
+        <div class="step-number">II</div>
+        <div class="step-ico">⭐</div>
+        <h3>The Rating</h3>
+        <p>A fully branded page appears. They select their rating. Five stars redirects automatically to Google or Yelp. Anything lower is captured privately for your team only.</p>
+      </div>
+      <div class="how-step reveal">
+        <div class="step-accent"></div>
+        <div class="step-number">III</div>
+        <div class="step-ico">📊</div>
+        <h3>The Intelligence</h3>
+        <p>Your Google rating climbs. Managers see real-time performance dashboards. AI coaching reaches each staff member directly. The entire operation improves.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section class="light-sec" id="features">
+  <div class="container">
+    <div class="sec-kicker">Platform Features</div>
+    <h2 class="sec-title" style="color:var(--ink)">Built for the<br/><em style="color:var(--emerald)">way you work.</em></h2>
+    <p class="sec-body">Every feature was designed around real hospitality operations — not adapted from something else.</p>
+
+    <div class="feat-grid">
+      <div class="feat reveal">
+        <div class="feat-num">01 — AI</div>
+        <h3>Coaching Intelligence</h3>
+        <p>Every staff member receives personalized AI analysis — specific strengths, clear areas for growth, and a direct coaching message grounded in their own performance data.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-num">02 — Analytics</div>
+        <h3>Team Leaderboard</h3>
+        <p>Real-time performance rankings across your entire team. Know exactly who is driving reviews, who needs support, and how the team is performing this week.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-num">03 — Planning</div>
+        <h3>Rating Estimator</h3>
+        <p>Input your current Google rating and your target. We calculate precisely how many five-star reviews you need, and how long it will take your team to get there.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-num">04 — Branding</div>
+        <h3>Custom Tap Pages</h3>
+        <p>Every tap page reflects your brand — your logo, colors, and voice. Staff personalize with their own photo, title, and links. Guests experience something memorable.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-num">05 — Comms</div>
+        <h3>Bulletin Board</h3>
+        <p>Publish events, specials, or announcements directly to every staff tap page. Every customer who taps sees your latest message — no extra effort required.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="feat-num">06 — Reputation</div>
+        <h3>Private Feedback</h3>
+        <p>Ratings below four stars are captured privately. Your team gains honest, actionable insight. Your public reputation stays protected. Everyone wins.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:64px">
+      <div class="sec-kicker">Industries Served</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--ink);margin-bottom:20px">Any hospitality<br/><em style="color:var(--emerald)">operation.</em></h3>
+      <div class="vert-grid">
+        <div class="vert">Restaurants</div>
+        <div class="vert">Barbershops</div>
+        <div class="vert">Salons & Spas</div>
+        <div class="vert">Hotels</div>
+        <div class="vert">Bars & Lounges</div>
+        <div class="vert">Airport Venues</div>
+        <div class="vert">Food & Beverage</div>
+        <div class="vert">Massage Studios</div>
+        <div class="vert">Multi-Location Groups</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section class="sec" id="pricing" style="text-align:center">
+  <div class="container">
+    <div class="sec-kicker" style="justify-content:center;margin-bottom:14px">Pricing</div>
+    <h2 class="sec-title">Straightforward.<br/><em>No surprises.</em></h2>
+    <p class="sec-body" style="margin:0 auto">One monthly rate covers your entire location — every staff member, every tap, every feature.</p>
+
+    <div class="price-grid">
+      <div class="pcard reveal">
+        <div class="pcard-accent"></div>
+        <span class="ptag">Single Location</span>
+        <div class="pname">Monthly</div>
+        <div class="pamount"><sup>$</sup>89</div>
+        <div class="pper">per location · per month · no contract</div>
+        <div class="pdiv"></div>
+        <ul class="plist">
+          <li>Unlimited staff members</li>
+          <li>Unlimited taps & review tracking</li>
+          <li>AI coaching for every staff member</li>
+          <li>Team leaderboard & analytics</li>
+          <li>Fully branded customer tap page</li>
+          <li>Business bulletin board</li>
+          <li>Private feedback capture</li>
+          <li>Google rating estimator</li>
+          <li>Goals & performance tracking</li>
+        </ul>
+        <a href="#contact" class="pbtn outline">Get Started</a>
+      </div>
+
+      <div class="pcard featured reveal">
+        <div class="pcard-accent"></div>
+        <span class="ptag">Enterprise</span>
+        <div class="pname">Multi-Location</div>
+        <div class="pamount" style="font-size:52px;line-height:1.1;margin-bottom:12px">Let's<br/>Talk</div>
+        <div class="pper">custom pricing · 5+ locations</div>
+        <div class="pdiv"></div>
+        <ul class="plist">
+          <li>Everything in Monthly</li>
+          <li>Volume pricing per location</li>
+          <li>Centralized multi-location dashboard</li>
+          <li>Dedicated onboarding & setup</li>
+          <li>Priority support & account management</li>
+          <li>Custom branding per location</li>
+          <li>Quarterly business reviews</li>
+          <li>Airports, hotels & groups welcome</li>
+        </ul>
+        <a href="#contact" class="pbtn solid">Contact Us</a>
+      </div>
+    </div>
+
+    <!-- Card pricing -->
+    <div style="margin-top:80px">
+      <div class="sec-kicker" style="justify-content:center;margin-bottom:14px">NFC Cards</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;margin-bottom:10px">Hardware</h3>
+      <p style="color:var(--stone);font-size:14px;max-width:400px;margin:0 auto 36px;line-height:1.7">Cards are a one-time purchase, separate from your subscription. We program every card — you simply carry them.</p>
+      <div class="cpgrid">
+        <div class="cpcard reveal">
+          <h4>Tap+ Branded</h4>
+          <div class="cp"><sup>$</sup>11<span style="font-size:24px;color:var(--stone)">.99</span></div>
+          <p>Per card · No minimum<br/>Black card with Tap+ mark<br/>Ready same day</p>
+        </div>
+        <div class="cpcard reveal" style="border-left:1px solid rgba(13,158,110,.15)">
+          <h4 style="color:var(--emerald)">Custom Branded</h4>
+          <div class="cp"><sup>$</sup>15<span style="font-size:24px;color:var(--stone)">.99+</span></div>
+          <p>Per card · 25 card minimum<br/>Your logo & brand colors<br/>Approximately 3 week delivery</p>
+        </div>
+      </div>
+      <p style="color:var(--stone);font-size:12px;margin-top:20px;letter-spacing:.04em">We arrive, program every card, and train your team. You are operational the same day.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section class="contact-sec" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <div class="sec-kicker">Get in Touch</div>
+        <h2 class="sec-title" style="font-size:clamp(38px,4vw,58px)">
+          Request a<br/><em>demo.</em>
+        </h2>
+        <p class="sec-body" style="margin-bottom:0">We will come to you, handle every detail of the setup, and program every card. Your team can be collecting reviews before we leave.</p>
+        <div class="contact-info">
+          <div class="ci">
+            <div class="ci-line"></div>
+            <div>
+              <div class="ci-title">We Come to You</div>
+              <div class="ci-sub">On-site setup and card programming at no additional cost</div>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci-line"></div>
+            <div>
+              <div class="ci-title">Same Day Operational</div>
+              <div class="ci-sub">Your staff collecting reviews before we leave your location</div>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci-line"></div>
+            <div>
+              <div class="ci-title">No Contract Required</div>
+              <div class="ci-sub">Month to month. Cancel anytime. No risk on your end.</div>
+            </div>
+          </div>
+          <div class="ci">
+            <div class="ci-line"></div>
+            <div>
+              <div class="ci-title">Multi-Location & Enterprise</div>
+              <div class="ci-sub">Tailored pricing and onboarding for groups of 5 or more locations</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form" id="demoForm">
+          <div class="frow">
+            <div class="ff"><label>First Name</label><input type="text" id="fn" placeholder="Your name"/></div>
+            <div class="ff"><label>Last Name</label><input type="text" id="ln" placeholder="Last name"/></div>
+          </div>
+          <div class="ff"><label>Business Name</label><input type="text" id="bn" placeholder="Your business"/></div>
+          <div class="ff">
+            <label>Business Type</label>
+            <select id="bt">
+              <option value="">Select —</option>
+              <option>Restaurant</option>
+              <option>Bar / Lounge</option>
+              <option>Hotel</option>
+              <option>Barbershop</option>
+              <option>Salon / Spa</option>
+              <option>Food Truck</option>
+              <option>Airport Venue</option>
+              <option>Multi-Location / Chain</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="frow">
+            <div class="ff"><label>Phone</label><input type="tel" id="ph" placeholder="(555) 555-5555"/></div>
+            <div class="ff"><label>Email</label><input type="email" id="em" placeholder="you@business.com"/></div>
+          </div>
+          <div class="ff">
+            <label>Number of Staff</label>
+            <select id="sc">
+              <option value="">Select —</option>
+              <option>1–5</option>
+              <option>6–15</option>
+              <option>16–30</option>
+              <option>30+</option>
+            </select>
+          </div>
+          <div class="ff">
+            <label>Message</label>
+            <textarea id="msg" placeholder="Tell us about your operation, number of locations, or any questions..."></textarea>
+          </div>
+          <button class="fsub" onclick="submitDemo()">Submit Request →</button>
+        </div>
+        <div class="fsuccess" id="formOk">
+          Thank you. We will be in touch within 24 hours.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Tap<sup>+</sup></div>
+  <div class="f-copy">© 2025 Tap+. Hospitality review intelligence.</div>
+  <div class="f-links">
+    <a href="#how">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+// ── 3D Card ──────────────────────────────────────────────────────────────────
+const scene=document.getElementById('cardScene');
+const card=document.getElementById('card3d');
+let drag=false,sx=0,sy=0,ry=-18,rx=8,flipped=false;
+function setT(y,x){card.style.animation='none';card.style.transform=`rotateY(${y}deg) rotateX(${x}deg)`}
+function reset(){setTimeout(()=>{card.style.animation='elegantFloat 8s ease-in-out infinite';ry=-18;rx=8},2500)}
+scene.addEventListener('mousedown',e=>{drag=true;sx=e.clientX;sy=e.clientY;scene.style.cursor='grabbing'});
+window.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  ry=Math.max(-180,Math.min(180,ry+(e.clientX-sx)*.8));
+  rx=Math.max(-30,Math.min(30,rx-(e.clientY-sy)*.4));
+  setT(ry,rx);sx=e.clientX;sy=e.clientY;
+});
+window.addEventListener('mouseup',()=>{if(!drag)return;drag=false;scene.style.cursor='grab';reset()});
+let tx=0,ty=0;
+scene.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;card.style.animation='none'},{passive:true});
+scene.addEventListener('touchmove',e=>{
+  ry=Math.max(-180,Math.min(180,ry+(e.touches[0].clientX-tx)*.8));
+  rx=Math.max(-30,Math.min(30,rx-(e.touches[0].clientY-ty)*.4));
+  setT(ry,rx);tx=e.touches[0].clientX;ty=e.touches[0].clientY;
+},{passive:true});
+scene.addEventListener('touchend',reset);
+scene.addEventListener('click',()=>{flipped=!flipped;ry=flipped?160:-18;setT(ry,rx);reset()});
+
+// ── Scroll reveal ────────────────────────────────────────────────────────────
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── Form ─────────────────────────────────────────────────────────────────────
+function submitDemo(){
+  const fn=document.getElementById('fn').value.trim();
+  const em=document.getElementById('em').value.trim();
+  const bn=document.getElementById('bn').value.trim();
+  if(!fn||!em||!bn){alert('Please fill in your name, business name, and email.');return;}
+  document.getElementById('demoForm').style.display='none';
+  document.getElementById('formOk').style.display='block';
+}
+</script>
+</body>
+</html>
